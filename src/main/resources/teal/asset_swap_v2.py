@@ -72,7 +72,7 @@ if __name__ == "__main__":
     assetId = 999999
     round = 888888
 
-    with open('/Users/ICEALIM/Desktop/asset_swap_v2.teal', 'w') as f:
+    with open('/Users/USER/Desktop/asset_swap_v2.teal', 'w') as f:
         program = asset_swap_v2(owner, buyer, assetId, round, 2000)
         compiled = compileTeal(program, Mode.Signature, version=3)
         f.write(compiled)
