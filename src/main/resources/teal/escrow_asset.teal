@@ -1,0 +1,76 @@
+#pragma version 3
+txn FirstValid
+int {{ round }}
+>
+txn Fee
+int {{ fee }}
+<
+&&
+txn RekeyTo
+global ZeroAddress
+==
+&&
+global GroupSize
+int 2
+==
+bnz l2
+global GroupSize
+int 1
+==
+gtxn 0 Fee
+int {{ fee }}
+<
+&&
+gtxn 0 GroupIndex
+int 0
+==
+&&
+gtxn 0 TypeEnum
+int axfer
+==
+&&
+gtxn 0 XferAsset
+int {{ assetId }}
+==
+&&
+gtxn 0 AssetAmount
+int 0
+==
+&&
+b l6
+l2:
+txn FirstValid
+int {{ round }}
+>
+global GroupSize
+int 2
+==
+&&
+txn GroupIndex
+int 1
+==
+bnz l4
+gtxn 0 TypeEnum
+int axfer
+==
+gtxn 0 XferAsset
+int {{ assetId }}
+==
+&&
+gtxn 0 AssetReceiver
+addr {{ buyer }}
+==
+&&
+b l5
+l4:
+gtxn 1 TypeEnum
+int pay
+==
+gtxn 1 Receiver
+addr {{ owner }}
+==
+&&
+l5:
+&&
+l6:
+&&
