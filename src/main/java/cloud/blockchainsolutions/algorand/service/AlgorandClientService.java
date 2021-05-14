@@ -159,6 +159,7 @@ public class AlgorandClientService {
                 .assetReceiver(buyerAddress)
                 .assetAmount(purchaseRequest.getNumberOfTokens())
                 .assetIndex(token.getAssetId())
+                .assetCloseTo(sellerAddress)
                 .suggestedParams(params)
                 .build();
 
@@ -172,6 +173,7 @@ public class AlgorandClientService {
                 .amount(totalAmount)
                 .receiver(sellerAddress)
                 .suggestedParams(params)
+                .closeRemainderTo(buyerAddress)
                 .build();
 
         log.info("sending amount: {} from: {} to: {} remainder: {}", totalAmount, contractResponse.getAddress(),
