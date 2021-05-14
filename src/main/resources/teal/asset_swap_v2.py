@@ -19,12 +19,14 @@ def asset_swap_v2(owner, buyer, assetId, round, fee):
     transfer_asset = And(
         Gtxn[0].type_enum() == TxnType.AssetTransfer,
         Gtxn[0].xfer_asset() == Int(assetId),
-        Gtxn[0].asset_receiver() == Addr(buyer)
+        Gtxn[0].asset_receiver() == Addr(buyer),
+        Gtxn[0].asset_close_to() == Addr(owner)
     )
 
     receive_payment = And(
         Gtxn[1].type_enum() == TxnType.Payment,
-        Gtxn[1].receiver() == Addr(owner)
+        Gtxn[1].receiver() == Addr(owner),
+        Gtxn[1].close_remainder_to() == Addr(buyer)
     )
 
     # 3. Rollback Transaction
@@ -72,7 +74,7 @@ if __name__ == "__main__":
     assetId = 999999
     round = 888888
 
-    with open('/Users/USER/Desktop/asset_swap_v2.teal', 'w') as f:
+    with open('asset_swap_v2.teal', 'w') as f:
         program = asset_swap_v2(owner, buyer, assetId, round, 2000)
         compiled = compileTeal(program, Mode.Signature, version=3)
         f.write(compiled)
